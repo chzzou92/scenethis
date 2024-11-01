@@ -1,0 +1,84 @@
+.truncated-text {
+  display: -webkit-box; /* For WebKit browsers */
+  -webkit-box-orient: vertical; /* Arrange the box vertically */
+  -webkit-line-clamp: 3; /* Limit to 3 lines */
+  overflow: hidden; /* Hide overflow text */
+  text-overflow: ellipsis; /* Add ellipsis (...) */
+  height: 4.5em; /* Set height to accommodate the number of lines */
+}
+.fade-in-up {
+  opacity: 0; /* Start invisible */
+  transform: translateY(80px); /* Start 20 pixels lower */
+  animation: fadeInUp 0.5s forwards; /* Animation name, duration, and forwards to retain styles */
+}
+.fade-out {
+  opacity: 1; /* Start fully visible */
+  animation: fadeOut 0.5s forwards; /* Animation name, duration, and forwards to retain styles */
+}
+.w-40 {
+  width: 40%;
+}
+.search {
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+@keyframes fadeOut {
+  to {
+    opacity: 0; /* End fully invisible */
+  }
+}
+@keyframes fadeInUp {
+  to {
+    opacity: 1; /* End fully visible */
+    transform: translateY(0); /* End in the original position */
+  }
+}
+@keyframes zoomIn {
+  to {
+    size: 10%; /* End fully invisible */
+  }
+}
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+  display: flex;
+}
+
+.read-the-docs {
+  color: #888;
+}
