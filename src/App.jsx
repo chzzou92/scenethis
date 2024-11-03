@@ -44,7 +44,7 @@ function App() {
             console.error("Error fetching movie recommendation:", error);
           }
           resolve();
-        }, 800); // 500 ms delay for loading
+        }, 1000); // 500 ms delay for loading
       }, 500); // Wait for fade-out animation to finish (500ms)
     });
   }

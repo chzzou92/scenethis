@@ -9,7 +9,7 @@ cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
 
-df1=pd.read_csv('/Users/chriszou/Desktop/Movie/tmdb_5000_credits.csv')
+df1=pd.read_csv('tmdb_5000_credits.csv')
 df2=pd.read_csv('tmdb_5000_movies.csv')
 
 df1.columns = ['id','tittle','cast','crew']
