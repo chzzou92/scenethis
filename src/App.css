@@ -35,6 +35,7 @@
 .cardImg {
   width: 80%;
   height: 55%;
+  border-radius: 18px;
 }
 
 .search {
@@ -90,7 +91,17 @@
 
 .buttons {
   display: flex;
+  justify-content: center;
+  align-items: center;
   width: 80%;
+}
+
+.leftButton {
+  margin-right: 2em;
+}
+
+.rightButton {
+  margin-left: 2em;
 }
 
 .filler {

@@ -1,12 +1,18 @@
 import { useState } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Button from "react-bootstrap/Button";
-import Card from "react-bootstrap/Card";
 import Spinner from "react-bootstrap/Spinner";
 import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
+
+import Movie from "./Movie.jsx";
+import MovieCard from "./MovieCard.jsx";
+import Select from "./Select.jsx";
 import "./App.css";
 import "./index.css";
+
+let selectedMovies = [];
+export const getSelectedMovies = () => selectedMovies;
 
 function App() {
   const [movieData, setMovieData] = useState({});
@@ -17,12 +23,16 @@ function App() {
   const [loading, setLoading] = useState(false); // Loading state
   const [fadeOut, setFadeOut] = useState(false); // Fade-out state
   const [showForm, setShowForm] = useState(true); // State to show form
+  const [showSelect, setShowSelect] = useState(false);
+
+  let movieId;
   let response;
 
   function fetchRecommendations(decline) {
     return new Promise((resolve) => {
       setTimeout(async () => {
         setLoading(true); // Set loading to true
+        setShowSelect(false);
         console.log("Running.");
         // Simulate loading with setTimeout
         setTimeout(async () => {
@@ -50,11 +60,22 @@ function App() {
   }
 
   const fetchMovieData = async (decline = false) => {
-    if (!currentMovie) return;
     setError(null); // Reset any previous error
     setFadeOut(true); // Start fade-out
+    if (!decline && currentMovie && !showForm) {
+      const currentMovieClass = new Movie(
+        currentMovie,
+        movieId,
+        movieData,
+        credits
+      );
+      console.log("worked!");
+      console.log(currentMovieClass);
+      selectedMovies.push(currentMovieClass);
+      console.log(selectedMovies);
+    }
 
-    console.log(currentMovie);
+    //console.log(currentMovie);
     await fetchRecommendations(decline);
     console.log(response.data);
 
@@ -69,7 +90,6 @@ function App() {
           },
         }
       );
-
       const movieId = searchResponse.data.results[0].id;
       const movieResponse = await axios.get(
         `https://api.themoviedb.org/3/movie/${movieId}`,
@@ -80,6 +100,7 @@ function App() {
           },
         }
       );
+      // console.log(movieResponse);
 
       const creditsResponse = await axios.get(
         `https://api.themoviedb.org/3/movie/${movieId}/credits`,
@@ -93,6 +114,7 @@ function App() {
 
       setMovieData(movieResponse.data);
       setCredits(creditsResponse.data);
+     // console.log(credits);
     } catch (error) {
       console.error("Error fetching movie data:", error);
       setError("Failed to fetch movie data");
@@ -102,15 +124,22 @@ function App() {
     }
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault(); // Prevent default form submission
     fetchMovieData(false); // Call function to fetch movie data
+    await axios.delete("http://127.0.0.1:5000/r");
   };
 
   const handleInputChange = (event) => {
     setCurrentMovie(event.target.value); // Update movie title state
   };
-
+  const handleSelected = () => {
+    if (showSelect) {
+      setShowSelect(false);
+    } else {
+      setShowSelect(true);
+    }
+  };
   return (
     <div className="app container fixed-height-card">
       {loading ? ( // Conditional rendering for loading state
@@ -135,76 +164,67 @@ function App() {
             Search
           </Button>
         </Form>
+      ) : showSelect ? (
+        <>
+          <Select empty={selectedMovies.length === 0 ? true : false} />
+          <div>
+            <Button
+              className="selectedMovies"
+              onClick={() => {
+                handleSelected();
+              }}
+            >
+              Selected Movies
+            </Button>
+          </div>
+        </>
       ) : (
         movieData && ( // Render the card if movieData is available
-          
-          
-          <Card className={`card  ${fadeOut ? "fade-out" : "fade-in-up"}`}>
-            <div>
-              <h1 className="" id="title">{movieData.title}</h1>
-              <h2 id="year">
-                {movieData.release_date
-                  ? movieData.release_date.slice(0, 4)
-                  : ""}
-              </h2>
-            </div>
-            <Card.Img
-              className="cardImg "
-              src={`https://image.tmdb.org/t/p/w342${movieData.poster_path}`}
-              alt="Movie Poster"
-            />
-
-            <h3 id="director" className="">
-              {credits.crew
-                ? credits.crew.find(
-                    (member) => member.known_for_department === "Directing"
-                  )?.name
-                : ""}
-            </h3>
-            <h4 id="cast" className="text pt-3 pb-3 border-top border-bottom">
-              {credits.cast
-                ? credits.cast
-                    .slice(0, 3)
-                    .map((actor) => actor.name)
-                    .join(", ")
-                : ""}
-            </h4>
-            <p id="desc" className="text">
-              {movieData.overview}
-            </p>
-            {error && <p>{error}</p>}
-            <div className="buttons mb-2">
+          <>
+            <div className="buttons">
               <svg
                 id="expandable-svg"
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
                 height="16"
                 fill="currentColor"
-                className="bi bi-x-circle-fill"
-                viewBox="0 0 16 16"
-                onClick={() => {
-                  fetchMovieData(false);
-                }}
-              >
-                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z" />
-              </svg>
-              <div className="filler"></div>
-              <svg
-                id="expandable-svg"
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                fill="currentColor"
-                className="bi bi-check-circle-fill"
+                className="bi bi-x-circle-fill leftButton"
                 viewBox="0 0 16 16"
                 onClick={() => {
                   fetchMovieData(true);
                 }}
               >
+                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z" />
+              </svg>
+              <MovieCard
+                fadeOut={fadeOut}
+                movieData={movieData}
+                credits={credits}
+              />
+              <svg
+                id="expandable-svg"
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                className="bi bi-check-circle-fill rightButton"
+                viewBox="0 0 16 16"
+                onClick={() => {
+                  fetchMovieData(false);
+                }}
+              >
                 <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
               </svg>
             </div>
-          </Card>
+            <Button
+              className="selectedMovies"
+              onClick={() => {
+                handleSelected();
+              }}
+            >
+              Selected Movies
+            </Button>
+          </>
         )
       )}
     </div>
