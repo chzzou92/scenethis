@@ -8,11 +8,12 @@ import Button from "react-bootstrap/Button";
 import Movie from "./Movie.jsx";
 import MovieCard from "./MovieCard.jsx";
 import Select from "./Select.jsx";
+
 import "./App.css";
 import "./index.css";
 
 let selectedMovies = [];
-export const getSelectedMovies = () => selectedMovies;
+
 
 function App() {
   const [movieData, setMovieData] = useState({});
@@ -33,7 +34,7 @@ function App() {
       setTimeout(async () => {
         setLoading(true); // Set loading to true
         setShowSelect(false);
-        console.log("Running.");
+        //console.log("Running.");
         // Simulate loading with setTimeout
         setTimeout(async () => {
           try {
@@ -72,7 +73,7 @@ function App() {
       console.log("worked!");
       console.log(currentMovieClass);
       selectedMovies.push(currentMovieClass);
-      console.log(selectedMovies);
+      // console.log(selectedMovies);
     }
 
     //console.log(currentMovie);
@@ -114,7 +115,9 @@ function App() {
 
       setMovieData(movieResponse.data);
       setCredits(creditsResponse.data);
-     // console.log(credits);
+      console.log("credits;");
+      console.log(credits);
+      // console.log(credits);
     } catch (error) {
       console.error("Error fetching movie data:", error);
       setError("Failed to fetch movie data");
@@ -166,16 +169,34 @@ function App() {
         </Form>
       ) : showSelect ? (
         <>
-          <Select empty={selectedMovies.length === 0 ? true : false} />
-          <div>
-            <Button
-              className="selectedMovies"
+          <Select movies={selectedMovies} />
+          <div className="shopping-cart">
+            <svg
+            id="expandable-svg"
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              className="bi bi-circle-fill"
+              viewBox="0 0 16 16"
+            >
+              <circle cx="8" cy="8" r="8" />
+            </svg>
+            <svg
+              id="expandable-svg"
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              className="bi bi-basket2"
+              viewBox="0 0 16 16"
               onClick={() => {
                 handleSelected();
               }}
             >
-              Selected Movies
-            </Button>
+              <path d="M4 10a1 1 0 0 1 2 0v2a1 1 0 0 1-2 0zm3 0a1 1 0 0 1 2 0v2a1 1 0 0 1-2 0zm3 0a1 1 0 1 1 2 0v2a1 1 0 0 1-2 0z" />
+              <path d="M5.757 1.071a.5.5 0 0 1 .172.686L3.383 6h9.234L10.07 1.757a.5.5 0 1 1 .858-.514L13.783 6H15.5a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-.623l-1.844 6.456a.75.75 0 0 1-.722.544H3.69a.75.75 0 0 1-.722-.544L1.123 8H.5a.5.5 0 0 1-.5-.5v-1A.5.5 0 0 1 .5 6h1.717L5.07 1.243a.5.5 0 0 1 .686-.172zM2.163 8l1.714 6h8.246l1.714-6z" />
+            </svg>
           </div>
         </>
       ) : (
@@ -215,15 +236,24 @@ function App() {
               >
                 <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
               </svg>
+              <div>
+                <svg
+                  id="expandable-svg"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  className="bi bi-basket2"
+                  viewBox="0 0 16 16"
+                  onClick={() => {
+                    handleSelected();
+                  }}
+                >
+                  <path d="M4 10a1 1 0 0 1 2 0v2a1 1 0 0 1-2 0zm3 0a1 1 0 0 1 2 0v2a1 1 0 0 1-2 0zm3 0a1 1 0 1 1 2 0v2a1 1 0 0 1-2 0z" />
+                  <path d="M5.757 1.071a.5.5 0 0 1 .172.686L3.383 6h9.234L10.07 1.757a.5.5 0 1 1 .858-.514L13.783 6H15.5a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-.623l-1.844 6.456a.75.75 0 0 1-.722.544H3.69a.75.75 0 0 1-.722-.544L1.123 8H.5a.5.5 0 0 1-.5-.5v-1A.5.5 0 0 1 .5 6h1.717L5.07 1.243a.5.5 0 0 1 .686-.172zM2.163 8l1.714 6h8.246l1.714-6z" />
+                </svg>
+              </div>
             </div>
-            <Button
-              className="selectedMovies"
-              onClick={() => {
-                handleSelected();
-              }}
-            >
-              Selected Movies
-            </Button>
           </>
         )
       )}

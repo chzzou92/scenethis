@@ -2,9 +2,12 @@ import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-function MovieCard({ error, fadeOut, movieData, credits, fetchMovieData }) {
+function MovieCard({ fadeOut, movieData, credits, movieID }) {
   return (
-    <Card className={`card  ${fadeOut ? "fade-out" : "fade-in-up"}`}>
+    <Card
+      key={movieID}
+      className={`card  ${fadeOut ? "fade-out" : "fade-in-up"}`}
+    >
       <div>
         <h1 className="" id="title">
           {movieData.title}

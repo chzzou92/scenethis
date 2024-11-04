@@ -46,14 +46,21 @@ h1 {
   height: 48px;
   transition: transform 0.3s ease; /* Smooth transition */
   display: inline-block; /* Make the div wrap tightly around its content */
-
 }
 
 /* Hover effect */
 #expandable-svg:hover {
   transform: scale(1.1); /* Slightly increase the size */
 }
-
+.shopping-cart {
+  margin-top: 90vh;
+}
+.bi-circle {
+  /*change */
+}
+.moviesContainer {
+  padding: 2em;
+}
 button {
   border-radius: 8px;
   border: 1px solid transparent;

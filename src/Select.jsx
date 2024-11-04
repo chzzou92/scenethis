@@ -1,23 +1,23 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import { getSelectedMovies } from "./App";
 import MovieCard from "./MovieCard.jsx";
 
-function Select({ empty }) {
-  const movies = getSelectedMovies();
-  console.log(movies);
-  const currentMovie = movies[0];
-  console.log(currentMovie);
+function Select({ movies }) {
+  //console.log(movies);
+
+  // console.log(currentMovie.credits);
+
   return (
-    <div className="app container fixed-height-card">
-      {empty ? (
-        <h1>nothing here buddy</h1>
-      ) : (
+    <div className="selectApp fixed-height-card">
+      {movies.length === 0 ? <h1>Nothing here buddy</h1> : null}
+      {movies.map((movie) => (
         <MovieCard
+          key={movie.movieID}
+          movieID={movie.movieID}
           fadeOut={false}
-          movieData={currentMovie.movieData}
-          credits={currentMovie.credits}
+          movieData={movie.movieData}
+          credits={movie.movieCredits}
         />
-      )}
+      ))}
     </div>
   );
 }
