@@ -33,31 +33,34 @@ body {
   height: 100vh;
 }
 
-.center {
-  align-self: center;
-}
 
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
 }
 #expandable-svg {
-  width: 48px;
-  height: 48px;
+  width: 64px;
+  height: 64px;
   transition: transform 0.3s ease; /* Smooth transition */
   display: inline-block; /* Make the div wrap tightly around its content */
 }
 
+#expandable-icon {
+  width: 32px;
+  height: 32px;
+  transition: transform 0.3s ease;
+  position: fixed;
+  z-index: 1;
+  bottom: 30px;
+  right: 50px;
+}
+
 /* Hover effect */
-#expandable-svg:hover {
+.shopping-cart:hover #expandable-svg, .shopping-cart:hover #expandable-icon {
   transform: scale(1.1); /* Slightly increase the size */
 }
-.shopping-cart {
-  margin-top: 90vh;
-}
-.bi-circle {
-  /*change */
-}
+
+
 .moviesContainer {
   padding: 2em;
 }

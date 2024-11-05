@@ -1,15 +1,15 @@
 import "bootstrap/dist/css/bootstrap.min.css";
+import PropTypes from 'prop-types';
 import MovieCard from "./MovieCard.jsx";
 
 function Select({ movies }) {
-  //console.log(movies);
 
-  // console.log(currentMovie.credits);
+
 
   return (
-    <div className="selectApp fixed-height-card">
+    <div className={`selectApp ${movies.length === 1 ? "center" : ""}`} style={movies.length===2 ? {width: "70%"} : {}}>
       {movies.length === 0 ? <h1>Nothing here buddy</h1> : null}
-      {movies.map((movie) => (
+      {movies.slice(0, 3).map((movie) => (
         <MovieCard
           key={movie.movieID}
           movieID={movie.movieID}
@@ -21,4 +21,9 @@ function Select({ movies }) {
     </div>
   );
 }
+
+Select.propTypes = {
+  movies: PropTypes.arrayOf(PropTypes.object).isRequired
+}
+
 export default Select;

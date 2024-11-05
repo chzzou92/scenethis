@@ -7,27 +7,25 @@ import Button from "react-bootstrap/Button";
 
 import Movie from "./Movie.jsx";
 import MovieCard from "./MovieCard.jsx";
+import ShoppingCart from "./ShoppingCart.jsx";
 import Select from "./Select.jsx";
 
 import "./App.css";
 import "./index.css";
 
 let selectedMovies = [];
-
+let movieId;
+let response;
 
 function App() {
   const [movieData, setMovieData] = useState({});
   const [credits, setCredits] = useState({});
-  const [error, setError] = useState(null);
   // State to store the current movie
   const [currentMovie, setCurrentMovie] = useState("");
   const [loading, setLoading] = useState(false); // Loading state
   const [fadeOut, setFadeOut] = useState(false); // Fade-out state
   const [showForm, setShowForm] = useState(true); // State to show form
   const [showSelect, setShowSelect] = useState(false);
-
-  let movieId;
-  let response;
 
   function fetchRecommendations(decline) {
     return new Promise((resolve) => {
@@ -61,7 +59,6 @@ function App() {
   }
 
   const fetchMovieData = async (decline = false) => {
-    setError(null); // Reset any previous error
     setFadeOut(true); // Start fade-out
     if (!decline && currentMovie && !showForm) {
       const currentMovieClass = new Movie(
@@ -73,7 +70,7 @@ function App() {
       console.log("worked!");
       console.log(currentMovieClass);
       selectedMovies.push(currentMovieClass);
-      // console.log(selectedMovies);
+      console.log(selectedMovies);
     }
 
     //console.log(currentMovie);
@@ -91,7 +88,8 @@ function App() {
           },
         }
       );
-      const movieId = searchResponse.data.results[0].id;
+      movieId = searchResponse.data.results[0].id;
+      console.log(movieId);
       const movieResponse = await axios.get(
         `https://api.themoviedb.org/3/movie/${movieId}`,
         {
@@ -115,12 +113,10 @@ function App() {
 
       setMovieData(movieResponse.data);
       setCredits(creditsResponse.data);
-      console.log("credits;");
-      console.log(credits);
+      console.log(creditsResponse.data);
       // console.log(credits);
     } catch (error) {
       console.error("Error fetching movie data:", error);
-      setError("Failed to fetch movie data");
     } finally {
       setLoading(false); // Set loading to false
       setFadeOut(false); // Reset fade-out state for next fetch
@@ -136,24 +132,18 @@ function App() {
   const handleInputChange = (event) => {
     setCurrentMovie(event.target.value); // Update movie title state
   };
-  const handleSelected = () => {
-    if (showSelect) {
-      setShowSelect(false);
-    } else {
-      setShowSelect(true);
-    }
-  };
+
   return (
-    <div className="app container fixed-height-card">
+    <div className="app fixed-height-card">
       {loading ? ( // Conditional rendering for loading state
-        <div className="center loading-screen fade-in-up">
+        <div className="loading-screen fade-in-up">
           <Spinner animation="border" role="status">
             <span className="visually-hidden fade-in-up">Loading...</span>
           </Spinner>
           <p>Loading...</p>
         </div>
       ) : showForm ? ( // Render the form if showForm is true
-        <Form onSubmit={handleSubmit} className="center mb-2">
+        <Form onSubmit={handleSubmit} className="mb-2">
           <Form.Group controlId="formMovieTitle">
             <Form.Label>Enter Movie Title</Form.Label>
             <Form.Control
@@ -170,34 +160,7 @@ function App() {
       ) : showSelect ? (
         <>
           <Select movies={selectedMovies} />
-          <div className="shopping-cart">
-            <svg
-            id="expandable-svg"
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              fill="currentColor"
-              className="bi bi-circle-fill"
-              viewBox="0 0 16 16"
-            >
-              <circle cx="8" cy="8" r="8" />
-            </svg>
-            <svg
-              id="expandable-svg"
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              fill="currentColor"
-              className="bi bi-basket2"
-              viewBox="0 0 16 16"
-              onClick={() => {
-                handleSelected();
-              }}
-            >
-              <path d="M4 10a1 1 0 0 1 2 0v2a1 1 0 0 1-2 0zm3 0a1 1 0 0 1 2 0v2a1 1 0 0 1-2 0zm3 0a1 1 0 1 1 2 0v2a1 1 0 0 1-2 0z" />
-              <path d="M5.757 1.071a.5.5 0 0 1 .172.686L3.383 6h9.234L10.07 1.757a.5.5 0 1 1 .858-.514L13.783 6H15.5a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-.623l-1.844 6.456a.75.75 0 0 1-.722.544H3.69a.75.75 0 0 1-.722-.544L1.123 8H.5a.5.5 0 0 1-.5-.5v-1A.5.5 0 0 1 .5 6h1.717L5.07 1.243a.5.5 0 0 1 .686-.172zM2.163 8l1.714 6h8.246l1.714-6z" />
-            </svg>
-          </div>
+          <ShoppingCart showSelect={showSelect} setShowSelect={setShowSelect} movies={selectedMovies}/>
         </>
       ) : (
         movieData && ( // Render the card if movieData is available
@@ -209,7 +172,7 @@ function App() {
                 width="16"
                 height="16"
                 fill="currentColor"
-                className="bi bi-x-circle-fill leftButton"
+                className={`bi bi-x-circle-fill leftButton `}
                 viewBox="0 0 16 16"
                 onClick={() => {
                   fetchMovieData(true);
@@ -228,7 +191,7 @@ function App() {
                 width="16"
                 height="16"
                 fill="currentColor"
-                className="bi bi-check-circle-fill rightButton"
+                className={`bi bi-check-circle-fill rightButton `}
                 viewBox="0 0 16 16"
                 onClick={() => {
                   fetchMovieData(false);
@@ -236,24 +199,8 @@ function App() {
               >
                 <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
               </svg>
-              <div>
-                <svg
-                  id="expandable-svg"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  fill="currentColor"
-                  className="bi bi-basket2"
-                  viewBox="0 0 16 16"
-                  onClick={() => {
-                    handleSelected();
-                  }}
-                >
-                  <path d="M4 10a1 1 0 0 1 2 0v2a1 1 0 0 1-2 0zm3 0a1 1 0 0 1 2 0v2a1 1 0 0 1-2 0zm3 0a1 1 0 1 1 2 0v2a1 1 0 0 1-2 0z" />
-                  <path d="M5.757 1.071a.5.5 0 0 1 .172.686L3.383 6h9.234L10.07 1.757a.5.5 0 1 1 .858-.514L13.783 6H15.5a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-.623l-1.844 6.456a.75.75 0 0 1-.722.544H3.69a.75.75 0 0 1-.722-.544L1.123 8H.5a.5.5 0 0 1-.5-.5v-1A.5.5 0 0 1 .5 6h1.717L5.07 1.243a.5.5 0 0 1 .686-.172zM2.163 8l1.714 6h8.246l1.714-6z" />
-                </svg>
-              </div>
             </div>
+            <ShoppingCart showSelect={showSelect} setShowSelect={setShowSelect} movies={selectedMovies} fadeOut={fadeOut}/>
           </>
         )
       )}

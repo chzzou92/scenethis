@@ -1,11 +1,10 @@
-import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import "bootstrap/dist/css/bootstrap.min.css";
+import PropTypes from 'prop-types';
 
-function MovieCard({ fadeOut, movieData, credits, movieID }) {
+function MovieCard({ fadeOut, movieData, credits}) {
   return (
     <Card
-      key={movieID}
       className={`card  ${fadeOut ? "fade-out" : "fade-in-up"}`}
     >
       <div>
@@ -41,6 +40,12 @@ function MovieCard({ fadeOut, movieData, credits, movieID }) {
       </p>
     </Card>
   );
+}
+
+MovieCard.propTypes = {
+  fadeOut: PropTypes.bool.isRequired,
+  movieData: PropTypes.object.isRequired,
+  credits: PropTypes.object.isRequired
 }
 
 export default MovieCard;
