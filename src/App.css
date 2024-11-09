@@ -46,6 +46,20 @@
   flex-basis: 35em;
 }
 
+.flip-content {
+  height: 80vh;
+  width: 35em;
+}
+
+.front, .back {
+  position: absolute;
+  backface-visibility: hidden;
+}
+
+.back {
+  transform: rotateY( 180deg );
+}
+
 .cardImg {
   width: 80%;
   height: 55%;

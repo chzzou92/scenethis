@@ -1,0 +1,12 @@
+#movie_progressbar {
+    border-radius: 6px;
+    border: 1px solid #000104;
+    width: 110px;
+    height: 6px;
+    background-color: #000104;
+    position: relative;
+    overflow: hidden;
+}
+.progress{
+    transform: translateX(-100%);
+}
