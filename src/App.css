@@ -22,8 +22,12 @@
   align-items: center;
   height: 100vh;
   width: 100vw;
+  overflow: hidden;
+  scrollbar-width: none;
 }
-
+.app::-webkit-scrollbar {
+  display: none;
+}
 .selectApp {
   display: flex;
   justify-content: space-around;
@@ -31,7 +35,6 @@
   height: 100vh;
   width: 100%;
 }
-
 .center {
   justify-content: center;
 }
@@ -51,13 +54,14 @@
   width: 35em;
 }
 
-.front, .back {
+.front,
+.back {
   position: absolute;
   backface-visibility: hidden;
 }
 
 .back {
-  transform: rotateY( 180deg );
+  transform: rotateY(180deg);
 }
 
 .cardImg {
@@ -119,6 +123,7 @@
   bottom: 20px;
   right: 20px;
 }
+
 /* .card-container {
   cursor: pointer;
   position: absolute;
