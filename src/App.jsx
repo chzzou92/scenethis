@@ -9,7 +9,6 @@ import Movie from "./Movie.jsx";
 import MovieCard from "./MovieCard.jsx";
 import ShoppingCart from "./ShoppingCart.jsx";
 import Select from "./Select.jsx";
-import MovieProgressBar from "./MovieProgressbar.jsx";
 
 import "./App.css";
 import "./index.css";
@@ -162,7 +161,6 @@ function App() {
         <>
           <Select movies={selectedMovies} />
           <ShoppingCart showSelect={showSelect} setShowSelect={setShowSelect} movies={selectedMovies}/>
-          <MovieProgressBar/>
         </>
       ) : (
         movieData && ( // Render the card if movieData is available
