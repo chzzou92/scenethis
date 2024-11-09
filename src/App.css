@@ -49,19 +49,47 @@
   flex-basis: 35em;
 }
 
-.flip-content {
+.flip-container {
   height: 80vh;
   width: 35em;
+
+  perspective: 1500px;
+}
+
+.flip-content {
+  position: absolute; 
+  width: 100%;
+  height: 100%;
+
+  transition: transform 1s;
+  transform-style: preserve-3d;
+}
+
+.flip-content:has(.front.flipCard) {
+  transform: rotateY( 180deg );
+  transition: transform 1s;
 }
 
 .front,
 .back {
   position: absolute;
   backface-visibility: hidden;
+  transform-origin: center center;
 }
 
 .back {
   transform: rotateY(180deg);
+}
+
+#flip-icon {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  transition: transform 0.2s;
+}
+
+#flip-icon:hover {
+  transform: scale(1.1);
 }
 
 .cardImg {
@@ -172,6 +200,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 100%;
   width: 80%;
 }
 
