@@ -1,11 +1,10 @@
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: Helvetica, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  color-scheme: light;
+  height: 100vh;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -30,31 +29,43 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
   min-width: 320px;
-  min-height: 100vh;
+  height: 100vh;
 }
 
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
 }
+
+svg {
+  width: 64px;
+  height: 64px;
+}
+
 #expandable-svg {
-  width: 100px;
-  height: 100px;
   transition: transform 0.3s ease; /* Smooth transition */
   display: inline-block; /* Make the div wrap tightly around its content */
-  padding: 10px;
+}
+
+#expandable-icon {
+  width: 32px;
+  height: 32px;
+  transition: transform 0.3s ease;
+  position: fixed;
+  z-index: 1;
+  bottom: 30px;
+  right: 50px;
 }
 
 /* Hover effect */
-#expandable-svg:hover {
+.shopping-cart:hover #expandable-svg,
+.shopping-cart:hover #expandable-icon {
   transform: scale(1.1); /* Slightly increase the size */
 }
-.buttons {
-  display: flex;
-  justify-content: space-between;
+
+.moviesContainer {
+  padding: 2em;
 }
 button {
   border-radius: 8px;

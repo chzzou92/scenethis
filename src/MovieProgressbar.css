@@ -1,0 +1,53 @@
+/* #movie_progressbar .progress {
+  border-radius: 6px;
+  border: 1px solid #000104;
+  width: 110px;
+  height: 6px;
+  background-color: #000104;
+  overflow: hidden;
+  position: fixed;
+  bottom: 20px;
+  right: 650px;
+  transition: background-color 0.3s;
+}
+
+#movie_progressbar .progress {
+  transition: transform 250ms linear;
+  border-radius: 6px;
+  background-color: #ffffff;
+  will-change: transform;
+  height: 4px;
+  position: absolute;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #000104;
+  will-change: transform;
+  border-radius: 6px;
+  transition: background-color 0.3s, transform 250ms linear;
+} */
+#movie_progressbar {
+  position: fixed;
+  bottom: 20px;
+  right: 650px;
+  width: 110px;
+  height: 6px;
+  border-radius: 6px;
+  border: 1px solid #000104;
+  overflow: hidden;
+}
+
+.progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #000104;
+  will-change: transform;
+  border-radius: 6px;
+  transition: background-color 0.3s, transform 50ms linear;
+}

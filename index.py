@@ -9,7 +9,7 @@ cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
 
-df1=pd.read_csv('/Users/chriszou/Desktop/Movie/tmdb_5000_credits.csv')
+df1=pd.read_csv('tmdb_5000_credits.csv')
 df2=pd.read_csv('tmdb_5000_movies.csv')
 
 df1.columns = ['id','tittle','cast','crew']
@@ -40,6 +40,11 @@ cosine_sim = linear_kernel(tfidf_matrix, tfidf_matrix)
 #Construct a reverse map of indices and movie titles
 indices = pd.Series(df2.index, index=df2['title']).drop_duplicates()
 
+def resetRecommendations():
+    global usedMovies
+    usedMovies = []
+    print(usedMovies)
+
 # Function that takes in movie title as input and outputs most similar movies
 def get_recommendations(title, cosine_sim=cosine_sim, declined=False):
     try:
@@ -68,7 +73,6 @@ def get_recommendations(title, cosine_sim=cosine_sim, declined=False):
         
         # Return the top 10 most similar movies'''
         movie_indices = [i[0] for i in sim_scores]
-        print(movie_indices)
         stop = False
 
         for i in range(len(movie_indices)):
@@ -137,7 +141,7 @@ def get_declined_recommendations(title, cosine_sim=cosine_sim, declined=False):
 
 @app.route('/r', methods=['GET'])
 @cross_origin()
-def run_python():#
+def run_python():
     movie = request.args.get("movie")
     recommendation_type = request.args.get("type")
 
@@ -147,10 +151,17 @@ def run_python():#
     else:
         # Default to get_recommendations
         response_data = get_recommendations(movie)
+
     
     response = response_data
     return response
-    #result = "E.T. the Extra-Terrestrial"
+
+@app.route('/r', methods=['DELETE'])
+@cross_origin()
+def reset():
+    resetRecommendations()
+
+    return usedMovies
     
     #return result
 if __name__ == "__main__":
