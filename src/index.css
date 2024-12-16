@@ -1,5 +1,5 @@
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: Helvetica, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
@@ -33,7 +33,6 @@ body {
   height: 100vh;
 }
 
-
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
@@ -60,10 +59,10 @@ svg {
 }
 
 /* Hover effect */
-.shopping-cart:hover #expandable-svg, .shopping-cart:hover #expandable-icon {
+.shopping-cart:hover #expandable-svg,
+.shopping-cart:hover #expandable-icon {
   transform: scale(1.1); /* Slightly increase the size */
 }
-
 
 .moviesContainer {
   padding: 2em;
