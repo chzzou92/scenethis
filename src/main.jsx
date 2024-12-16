@@ -8,7 +8,6 @@ document.title = "SceneThis";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <App />
   </StrictMode>
 );

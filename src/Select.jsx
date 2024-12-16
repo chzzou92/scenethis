@@ -13,7 +13,7 @@ function Select({ movies }) {
           minWidth: `${(movies.length + 1) * 4 + movies.length * 30}em`,
         }}
       >
-        {movies.length === 0 ? <h1>Nothing here buddy</h1> : null}
+        {movies.length === 0 ? <h1>Empty Cart</h1> : null}
         {movies.map((movie) => (
           <MovieCard
             key={movie.movieID}
